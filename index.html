@@ -51,13 +51,29 @@
 
       function addMarker(msg){
         map.setCenter(msg);
-      var marker = new google.maps.Marker({
-          position: msg,
-          map: map,
-          draggable: false,
-          animation: google.maps.Animation.DROP,
-      });
+        var marker = new google.maps.Marker({
+            position: msg,
+            map: map,
+            draggable: false,
+            animation: google.maps.Animation.DROP,
+        });
       }
+      // on document ready
+      $(function() {
+        initialize();
+        var button = $('#location_button');
+
+        button.click(function(e) {
+          codeAddress();
+        });
+
+        $('#address').keypress(function(e) {
+          // enter key
+          if (e.which == 13) {
+            button.click();
+          }
+        });
+      });
     </script>
     <style>
     #map_canvas {
@@ -71,7 +87,7 @@
   <body onload="initialize()">
     <div>
       <input id="address" type="textbox" value="">
-      <button id="location_button" onclick="codeAddress()">Place a marker</button>
+      <button id="location_button"">Place a marker</button>
     </div>
     <div>
       <h2>Socket map:</h2>
