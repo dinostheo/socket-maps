@@ -29,7 +29,6 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on("markerPlaced", function(location){
-        console.log(location);
         socket.broadcast.emit('markerPlaced', location);
     });
 
