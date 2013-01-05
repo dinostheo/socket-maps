@@ -70,7 +70,8 @@
           google.maps.event.addListener(map, 'click', function(e) {
               placeMarker(e.latLng, map);
               socket.emit("markerPlaced", e.latLng);
-              calculateDistance(e.latLng);
+              var distance = calculateDistance(e.latLng);
+              $("#distance-point").html(distance);
           });
 
           var button = $('#location_button');
@@ -93,8 +94,8 @@
             var lat1 = currentLocation.Ya;
             var lon1 = currentLocation.Za;
             var lon2 = clickedLocation.Za;
-            var dLat = (lat2-lat1).toRad();
-            var dLon = (lon2-lon1).toRad();
+            var dLat = parseFloat(lat2-lat1).toRad();
+            var dLon = parseFloat(lon2-lon1).toRad();
             var lat1 = lat1.toRad();
             var lat2 = lat2.toRad();
 
@@ -102,8 +103,13 @@
                   Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
             var d = R * c;
-            console.log(d);
+            return d;
       }
+
+        Number.prototype.toRad = function() {  // convert degrees to radians
+            return this * Math.PI / 180;
+        }
+
     </script>
     <style>
     #map_canvas {
@@ -117,6 +123,9 @@
   <body>
     <div>
       <button id="location_button">Random Place</button><span id="which_location"></span>
+    </div>
+    <div>
+        <span id="distance-point"></span>
     </div>
     <div>
       <h2>Socket map:</h2>
